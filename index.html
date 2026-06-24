@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WUBCLUB — EDM Artist Merch & Drop Calendar</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap');
+:root{--orange:#F97316;--pink:#F472B6;--gold:#FBBF24;--sky:#38BDF8;--sage:#86EFAC;--dust:#FDE68A;--sand:#FEF3C7;--warm-bg:#FFF7ED;--deep:#1C0A00;--text:#3B1F0A;--muted:#92400E;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--warm-bg);color:var(--text);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:200;background:rgba(255,247,237,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(249,115,22,0.2);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,var(--orange),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px;cursor:pointer;}
+.logo span{-webkit-text-fill-color:var(--gold);}
+nav ul{display:flex;list-style:none;gap:1.5rem;align-items:center;}
+nav ul a{text-decoration:none;color:var(--text);font-size:0.82rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;transition:color 0.2s;cursor:pointer;}
+nav ul a:hover{color:var(--orange);}
+.nav-cta{background:linear-gradient(135deg,var(--orange),var(--pink));color:white!important;padding:0.45rem 1.1rem;border-radius:999px;font-size:0.78rem!important;}
+
+/* AD BANNER */
+.ad-banner{margin-top:64px;background:linear-gradient(90deg,var(--orange),var(--pink),var(--gold),var(--sky),var(--orange));background-size:300% 100%;animation:gradShift 6s linear infinite;padding:0.55rem 1rem;text-align:center;font-size:0.8rem;font-weight:600;color:white;letter-spacing:0.08em;cursor:pointer;}
+@keyframes gradShift{0%{background-position:0%}100%{background-position:300%}}
+.ad-brand{display:none;}.ad-brand.active{display:inline;}
+
+/* PAGES */
+.page{display:none;}.page.active{display:block;}
+
+/* HERO */
+.hero{min-height:90vh;background:linear-gradient(160deg,#FFF7ED 0%,#FEE2E2 30%,#FDF4FF 60%,#EFF6FF 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding:4rem 2rem;}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:0.5;animation:float 8s ease-in-out infinite;}
+.orb1{width:400px;height:400px;background:radial-gradient(circle,#F97316,transparent);top:-100px;left:-100px;}
+.orb2{width:300px;height:300px;background:radial-gradient(circle,#F472B6,transparent);bottom:-50px;right:-50px;animation-delay:-3s;}
+.orb3{width:250px;height:250px;background:radial-gradient(circle,#38BDF8,transparent);top:40%;left:60%;animation-delay:-5s;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+.hero-content{position:relative;z-index:2;max-width:780px;}
+.hero-tag{display:inline-block;background:rgba(249,115,22,0.12);color:var(--orange);font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.4rem 1rem;border-radius:999px;border:1px solid rgba(249,115,22,0.3);margin-bottom:1.5rem;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:900;line-height:1.05;margin-bottom:1.5rem;}
+.hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--orange),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:1.1rem;color:var(--muted);line-height:1.7;margin-bottom:2.5rem;max-width:520px;margin-inline:auto;}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-primary{background:linear-gradient(135deg,var(--orange),var(--pink));color:white;padding:0.85rem 2rem;border-radius:999px;font-size:0.9rem;font-weight:600;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(249,115,22,0.3);transition:transform 0.2s,box-shadow 0.2s;text-decoration:none;display:inline-block;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(249,115,22,0.4);}
+.btn-secondary{background:white;color:var(--text);padding:0.85rem 2rem;border-radius:999px;font-size:0.9rem;font-weight:600;border:2px solid rgba(249,115,22,0.3);cursor:pointer;transition:border-color 0.2s;}
+.btn-secondary:hover{border-color:var(--orange);}
+.hero-stats{margin-top:3.5rem;display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;}
+.stat-num{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;color:var(--orange);}
+.stat-label{font-size:0.78rem;color:var(--muted);font-weight:500;}
+
+/* SECTION COMMONS */
+section{padding:5rem 2rem;}
+.container{max-width:1100px;margin:0 auto;}
+.section-tag{font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--orange);margin-bottom:0.6rem;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:0.75rem;}
+.section-sub{color:var(--muted);font-size:0.95rem;line-height:1.7;max-width:500px;}
+
+/* DROP CALENDAR GRID */
+.calendar-section{background:linear-gradient(160deg,#FFF7ED,#FDF4FF);}
+.cal-header-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;flex-wrap:wrap;gap:1rem;}
+.filter-tabs{display:flex;gap:0.4rem;flex-wrap:wrap;}
+.tab{padding:0.38rem 0.9rem;border-radius:999px;font-size:0.78rem;font-weight:600;border:1.5px solid rgba(249,115,22,0.25);color:var(--muted);cursor:pointer;transition:all 0.2s;background:white;}
+.tab.active,.tab:hover{background:var(--orange);color:white;border-color:var(--orange);}
+
+/* VIEW TOGGLE */
+.view-toggle{display:flex;gap:0.5rem;margin-bottom:1.5rem;}
+.vtab{padding:0.35rem 1rem;border-radius:0.5rem;font-size:0.8rem;font-weight:600;cursor:pointer;border:1.5px solid rgba(249,115,22,0.25);background:white;color:var(--muted);transition:all 0.2s;}
+.vtab.active{background:var(--orange);color:white;border-color:var(--orange);}
+
+/* MONTH CALENDAR */
+.month-nav{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.month-nav button{background:white;border:1.5px solid rgba(249,115,22,0.25);border-radius:0.5rem;padding:0.3rem 0.75rem;cursor:pointer;font-size:1rem;color:var(--orange);transition:all 0.2s;}
+.month-nav button:hover{background:var(--orange);color:white;}
+.month-label{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-dow{text-align:center;font-size:0.7rem;font-weight:700;color:var(--muted);padding:0.4rem;text-transform:uppercase;letter-spacing:0.08em;}
+.cal-day{min-height:80px;background:white;border-radius:0.75rem;padding:0.4rem;border:1.5px solid transparent;transition:border-color 0.2s;cursor:pointer;position:relative;}
+.cal-day:hover{border-color:var(--orange);}
+.cal-day.other-month{opacity:0.3;}
+.cal-day.today{border-color:var(--orange);background:rgba(249,115,22,0.05);}
+.day-num{font-size:0.78rem;font-weight:700;color:var(--text);margin-bottom:0.25rem;}
+.cal-drop-dot{font-size:0.65rem;background:linear-gradient(135deg,var(--orange),var(--pink));color:white;border-radius:0.3rem;padding:0.12rem 0.3rem;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;display:block;}
+
+/* DROPS LIST */
+.drops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.25rem;}
+.drop-card{background:white;border-radius:1.5rem;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.06);transition:transform 0.2s,box-shadow 0.2s;border:1px solid rgba(249,115,22,0.1);cursor:pointer;}
+.drop-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,0.12);}
+.drop-img{height:120px;display:flex;align-items:center;justify-content:center;font-size:2.8rem;}
+.drop-body{padding:1.1rem;}
+.drop-artist{font-size:0.7rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.2rem;}
+.drop-name{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.6rem;}
+.countdown{display:flex;gap:0.4rem;margin-bottom:0.9rem;}
+.cd-unit{text-align:center;background:var(--sand);border-radius:0.4rem;padding:0.25rem 0.45rem;min-width:40px;}
+.cd-num{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;display:block;}
+.cd-label{font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;}
+.drop-footer{display:flex;justify-content:space-between;align-items:center;}
+.drop-price{font-weight:700;font-size:0.9rem;}
+.notify-btn{background:linear-gradient(135deg,var(--orange),var(--pink));color:white;border:none;padding:0.35rem 0.9rem;border-radius:999px;font-size:0.75rem;font-weight:600;cursor:pointer;transition:opacity 0.2s;}
+.notify-btn:hover{opacity:0.85;}
+.notify-btn.notified{background:var(--sage);color:var(--text);}
+
+/* ALERT MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:white;border-radius:1.5rem;padding:2.5rem;max-width:440px;width:100%;position:relative;}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:0.5rem;}
+.modal p{color:var(--muted);font-size:0.87rem;margin-bottom:1.25rem;line-height:1.6;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);}
+.alert-tabs{display:flex;gap:0.5rem;margin-bottom:1.25rem;}
+.alert-tab{flex:1;padding:0.5rem;border-radius:0.6rem;border:1.5px solid rgba(249,115,22,0.25);background:white;font-size:0.82rem;font-weight:600;cursor:pointer;text-align:center;transition:all 0.2s;color:var(--muted);}
+.alert-tab.active{background:linear-gradient(135deg,var(--orange),var(--pink));color:white;border-color:transparent;}
+.alert-input{width:100%;padding:0.7rem 1rem;border:1.5px solid rgba(249,115,22,0.2);border-radius:0.75rem;font-size:0.9rem;color:var(--text);background:var(--warm-bg);font-family:'Inter',sans-serif;outline:none;margin-bottom:1rem;}
+.alert-input:focus{border-color:var(--orange);}
+.alert-success{text-align:center;padding:1rem 0;}
+.alert-success .big-emoji{font-size:3rem;margin-bottom:0.75rem;}
+.alert-success h4{font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:0.5rem;}
+.alert-success p{font-size:0.85rem;}
+
+/* BRAND DIRECTORY */
+.brands-section{background:white;}
+.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1.1rem;margin-top:2rem;}
+.brand-card{border-radius:1.25rem;padding:1.4rem;text-align:center;cursor:pointer;border:2px solid rgba(249,115,22,0.1);transition:all 0.2s;background:var(--warm-bg);}
+.brand-card:hover{border-color:var(--orange);background:white;transform:translateY(-2px);}
+.brand-logo{font-size:2.2rem;margin-bottom:0.6rem;}
+.brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;margin-bottom:0.2rem;}
+.brand-cat{font-size:0.7rem;color:var(--muted);}
+.brand-free{display:inline-block;margin-top:0.4rem;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange);background:rgba(249,115,22,0.1);padding:0.18rem 0.45rem;border-radius:999px;}
+.list-brand-box{margin-top:2rem;background:linear-gradient(135deg,rgba(249,115,22,0.08),rgba(244,114,182,0.08));border:2px dashed rgba(249,115,22,0.3);border-radius:1.5rem;padding:2.2rem;text-align:center;}
+.list-brand-box h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:0.6rem;}
+.list-brand-box p{color:var(--muted);font-size:0.88rem;margin-bottom:1.25rem;}
+
+/* STOREFRONT PAGE */
+.storefront-page{background:var(--warm-bg);}
+.store-hero{background:linear-gradient(160deg,#FFF7ED,#FDF4FF);padding:3rem 2rem;position:relative;overflow:hidden;}
+.store-back{background:none;border:none;color:var(--orange);font-size:0.85rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:0.4rem;margin-bottom:1.5rem;padding:0;}
+.store-header{display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+.store-logo-big{font-size:4rem;background:white;width:90px;height:90px;border-radius:1.25rem;display:flex;align-items:center;justify-content:center;border:2px solid rgba(249,115,22,0.15);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.store-info h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;margin-bottom:0.25rem;}
+.store-info .store-cat{font-size:0.8rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;}
+.store-badges{display:flex;gap:0.5rem;flex-wrap:wrap;}
+.badge{font-size:0.7rem;font-weight:700;padding:0.25rem 0.6rem;border-radius:999px;}
+.badge-orange{background:rgba(249,115,22,0.12);color:var(--orange);}
+.badge-pink{background:rgba(244,114,182,0.12);color:#DB2777;}
+.badge-sage{background:rgba(134,239,172,0.2);color:#16A34A;}
+.store-stats{display:flex;gap:2rem;margin-top:1.5rem;flex-wrap:wrap;}
+.store-stat .num{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:var(--orange);}
+.store-stat .lbl{font-size:0.72rem;color:var(--muted);}
+.store-products{padding:3rem 2rem;}
+.store-products .container{}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.25rem;margin-top:1.5rem;}
+.prod-card{background:white;border-radius:1.25rem;overflow:hidden;border:1px solid rgba(0,0,0,0.06);transition:transform 0.2s,box-shadow 0.2s;cursor:pointer;}
+.prod-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.1);}
+.prod-img{height:140px;display:flex;align-items:center;justify-content:center;font-size:2.8rem;}
+.prod-body{padding:1rem;}
+.prod-name{font-weight:700;font-size:0.9rem;margin-bottom:0.25rem;}
+.prod-desc{font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem;line-height:1.5;}
+.prod-row{display:flex;justify-content:space-between;align-items:center;}
+.prod-price{font-weight:700;color:var(--text);}
+.add-btn{background:linear-gradient(135deg,var(--orange),var(--pink));color:white;border:none;padding:0.3rem 0.8rem;border-radius:999px;font-size:0.75rem;font-weight:600;cursor:pointer;}
+.add-btn:hover{opacity:0.85;}
+.store-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;}
+
+/* SUPPLIERS */
+.suppliers-section{background:linear-gradient(160deg,#FFF7ED,#ECFDF5);}
+.search-bar-wrap{margin:1.5rem 0;position:relative;}
+.search-bar{width:100%;padding:0.8rem 1rem 0.8rem 2.8rem;border:1.5px solid rgba(249,115,22,0.2);border-radius:999px;font-size:0.9rem;color:var(--text);background:white;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;}
+.search-bar:focus{border-color:var(--orange);}
+.search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);font-size:1rem;pointer-events:none;}
+.sup-filters{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+.sup-filter{padding:0.35rem 0.9rem;border-radius:999px;font-size:0.78rem;font-weight:600;border:1.5px solid rgba(249,115,22,0.2);background:white;color:var(--muted);cursor:pointer;transition:all 0.2s;}
+.sup-filter.active,.sup-filter:hover{background:var(--orange);color:white;border-color:var(--orange);}
+.suppliers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.25rem;}
+.supplier-card{background:white;border-radius:1.5rem;padding:1.5rem;border:1px solid rgba(0,0,0,0.06);transition:transform 0.2s,box-shadow 0.2s;}
+.supplier-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.1);}
+.sup-icon{font-size:2rem;margin-bottom:0.75rem;}
+.sup-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.35rem;}
+.sup-desc{font-size:0.8rem;color:var(--muted);line-height:1.6;margin-bottom:0.75rem;}
+.sup-tag{display:inline-block;font-size:0.68rem;font-weight:700;padding:0.22rem 0.55rem;border-radius:999px;}
+.tag-orange{background:rgba(249,115,22,0.12);color:var(--orange);}
+.tag-pink{background:rgba(244,114,182,0.12);color:#DB2777;}
+.tag-sky{background:rgba(56,189,248,0.12);color:#0284C7;}
+.tag-sage{background:rgba(134,239,172,0.2);color:#16A34A;}
+.no-results{text-align:center;padding:3rem;color:var(--muted);font-size:0.95rem;}
+
+/* ARTIST */
+.artist-section{background:linear-gradient(160deg,#FDF4FF,#FFF7ED);}
+.artist-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem;margin-top:2rem;}
+.artist-card{background:white;border-radius:1.5rem;overflow:hidden;border:1px solid rgba(244,114,182,0.15);transition:transform 0.2s,box-shadow 0.2s;}
+.artist-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(244,114,182,0.2);}
+.artist-banner{height:90px;display:flex;align-items:center;justify-content:center;font-size:2.8rem;}
+.artist-body{padding:1.1rem;}
+.artist-name{font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.2rem;}
+.artist-genre{font-size:0.72rem;color:var(--muted);margin-bottom:0.6rem;}
+.artist-drop{font-size:0.82rem;color:var(--text);margin-bottom:0.75rem;line-height:1.5;}
+.artist-date{font-size:0.78rem;font-weight:600;color:var(--orange);}
+
+/* FREE ADS */
+.ads-section{background:linear-gradient(135deg,var(--orange),var(--pink));color:white;text-align:center;}
+.ads-section .section-tag{color:rgba(255,255,255,0.7);}
+.ads-section .section-title{color:white;}
+.ads-section .section-sub{color:rgba(255,255,255,0.85);margin-inline:auto;}
+.ad-features{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin:2rem 0;}
+.ad-feat{background:rgba(255,255,255,0.15);border-radius:1rem;padding:1.4rem;flex:1;min-width:180px;max-width:230px;}
+.ad-feat-icon{font-size:1.8rem;margin-bottom:0.6rem;}
+.ad-feat h4{font-family:'Space Grotesk',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.4rem;}
+.ad-feat p{font-size:0.8rem;opacity:0.85;line-height:1.6;}
+.btn-white{background:white;color:var(--orange);padding:0.85rem 2.2rem;border-radius:999px;font-size:0.92rem;font-weight:700;border:none;cursor:pointer;transition:transform 0.2s;}
+.btn-white:hover{transform:translateY(-2px);}
+
+/* SIGNUP */
+.signup-section{background:white;}
+.signup-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;}
+@media(max-width:768px){.signup-grid{grid-template-columns:1fr;gap:2rem;} nav ul{gap:0.8rem;} .ad-feat{min-width:140px;}}
+.form-group{margin-bottom:0.9rem;}
+.form-group label{display:block;font-size:0.8rem;font-weight:600;margin-bottom:0.35rem;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:0.7rem 1rem;border:1.5px solid rgba(249,115,22,0.2);border-radius:0.75rem;font-size:0.88rem;color:var(--text);background:var(--warm-bg);font-family:'Inter',sans-serif;transition:border-color 0.2s;outline:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--orange);}
+.form-group textarea{resize:vertical;min-height:70px;}
+.signup-img{background:linear-gradient(160deg,#FFF7ED,#FDF4FF);border-radius:2rem;padding:2.5rem;text-align:center;font-size:4rem;border:2px solid rgba(249,115,22,0.15);}
+.signup-img p{font-size:0.9rem;font-weight:600;margin-top:0.75rem;color:var(--muted);}
+
+/* FOOTER */
+footer{background:var(--deep);color:rgba(255,255,255,0.7);padding:2.5rem 2rem;text-align:center;}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--orange),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.75rem;}
+.footer-links{display:flex;gap:1.25rem;justify-content:center;flex-wrap:wrap;margin:1.25rem 0;}
+.footer-links a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.8rem;transition:color 0.2s;cursor:pointer;}
+.footer-links a:hover{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="showPage('home')">WUB<span>CLUB</span></div>
+  <ul>
+    <li><a onclick="showPage('home');scrollTo('drops')">Drops</a></li>
+    <li><a onclick="showPage('home');scrollTo('brands')">Brands</a></li>
+    <li><a onclick="showPage('suppliers')">Suppliers</a></li>
+    <li><a onclick="showPage('home');scrollTo('artists')">Artists</a></li>
+    <li><a onclick="showPage('home');scrollTo('list')" class="nav-cta">List Free</a></li>
+  </ul>
+</nav>
+
+<div class="ad-banner">✨ FEATURED: &nbsp;
+  <span class="ad-brand active" id="ad0">☀️ SunRave Co. — Festival Fits for the Golden Hour &nbsp;|&nbsp; Shop Now →</span>
+  <span class="ad-brand" id="ad1">🌵 Desert Bloom — UV-Reactive Accessories &nbsp;|&nbsp; New Drop This Weekend →</span>
+  <span class="ad-brand" id="ad2">🌸 KandiKraft Studio — Handmade Rave Jewelry &nbsp;|&nbsp; Custom Orders Open →</span>
+  <span class="ad-brand" id="ad3">🎪 FestivalThreads — Flowy Fits & Co-ords &nbsp;|&nbsp; Summer Sale 30% Off →</span>
+</div>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🎛️ The EDM Artist Merch Hub</div>
+    <h1>Your Home for<br><em>Artist Drops</em><br>& Rave Merch</h1>
+    <p>Track exclusive merch drops from your favorite EDM artists, discover rave brands, and never miss a release — all in one place.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollTo('drops')">View Upcoming Drops</button>
+      <button class="btn-secondary" onclick="scrollTo('list')">List Your Brand Free</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">120+</div><div class="stat-label">Rave Brands</div></div>
+      <div class="stat"><div class="stat-num">48</div><div class="stat-label">Upcoming Drops</div></div>
+      <div class="stat"><div class="stat-num">30K+</div><div class="stat-label">Festival Fans</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DROP CALENDAR -->
+<section class="calendar-section" id="drops">
+<div class="container">
+  <div class="cal-header-row">
+    <div>
+      <div class="section-tag">🗓️ Drop Calendar</div>
+      <h2 class="section-title">Upcoming Merch Drops</h2>
+      <p class="section-sub">Never miss a drop from your favorite EDM artists. Filter by genre or artist type, and set alerts.</p>
+    </div>
+    <div class="filter-tabs">
+      <div class="tab active" onclick="filterDrops('all',this)">All</div>
+      <div class="tab" onclick="filterDrops('artist',this)">Solo Artists</div>
+      <div class="tab" onclick="filterDrops('collab',this)">Collabs</div>
+      <div class="tab" onclick="filterDrops('riddim',this)">Riddim</div>
+      <div class="tab" onclick="filterDrops('melodic',this)">Melodic</div>
+      <div class="tab" onclick="filterDrops('bass',this)">Bass</div>
+    </div>
+  </div>
+  <div class="view-toggle">
+    <div class="vtab active" onclick="switchView('list',this)">📋 List View</div>
+    <div class="vtab" onclick="switchView('calendar',this)">📅 Month View</div>
+  </div>
+  <div id="listView"><div class="drops-grid" id="dropsGrid"></div></div>
+  <div id="calendarView" style="display:none">
+    <div class="month-nav">
+      <button onclick="changeMonth(-1)">‹</button>
+      <span class="month-label" id="monthLabel"></span>
+      <button onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+  </div>
+</div>
+</section>
+
+<!-- BRAND DIRECTORY -->
+<section class="brands-section" id="brands">
+<div class="container">
+  <div class="section-tag">🛍️ Brand Directory</div>
+  <h2 class="section-title">Festival Brands</h2>
+  <p class="section-sub">Discover independent rave brands. Click any brand to visit their storefront.</p>
+  <div class="brands-grid" id="brandsGrid"></div>
+  <div class="list-brand-box">
+    <h3>Sell Your Merch Here — Free</h3>
+    <p>List your rave brand, get a free rotating ad spot, and reach 30K+ festival fans. No catch.</p>
+    <button class="btn-primary" onclick="scrollTo('list')">Apply to List Your Brand</button>
+  </div>
+</div>
+</section>
+
+<!-- ARTIST SPOTLIGHT -->
+<section class="artist-section" id="artists">
+<div class="container">
+  <div class="section-tag">🎤 Artist Spotlight</div>
+  <h2 class="section-title">EDM Artist Merch Drops</h2>
+  <p class="section-sub">Exclusive merch from your favorite EDM artists. Get notified before they sell out.</p>
+  <div class="artist-grid">
+    <div class="artist-card"><div class="artist-banner" style="background:linear-gradient(135deg,#FFF7ED,#FEE2E2)">🌀</div><div class="artist-body"><div class="artist-name">Subtronics</div><div class="artist-genre">Riddim Dubstep</div><div class="artist-drop">Sub Bass Hoodie — heavy-weight 400gsm, spiral embroidery, limited to 300 units.</div><div class="artist-date">📅 Drops July 4, 2026</div></div></div>
+    <div class="artist-card"><div class="artist-banner" style="background:linear-gradient(135deg,#FDF4FF,#EFF6FF)">👁️</div><div class="artist-body"><div class="artist-name">Rezz</div><div class="artist-genre">Space Bass</div><div class="artist-drop">Spiral Jacket — hypnotic eye print, track jacket silhouette, collab with Void Supply Co.</div><div class="artist-date">📅 Drops July 8, 2026</div></div></div>
+    <div class="artist-card"><div class="artist-banner" style="background:linear-gradient(135deg,#ECFDF5,#FFF7ED)">🦁</div><div class="artist-body"><div class="artist-name">Seven Lions</div><div class="artist-genre">Melodic Dubstep</div><div class="artist-drop">Dreamstate Tee — celestial artwork, soft hand print, paired with digital download.</div><div class="artist-date">📅 Drops July 19, 2026</div></div></div>
+    <div class="artist-card"><div class="artist-banner" style="background:linear-gradient(135deg,#FFF7ED,#FDF4FF)">🔥</div><div class="artist-body"><div class="artist-name">Illenium</div><div class="artist-genre">Future Bass</div><div class="artist-drop">Alive Crewneck — embroidered phoenix, washed colorway, drops with new album.</div><div class="artist-date">📅 Drops August 14, 2026</div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- FREE ADS -->
+<section class="ads-section">
+<div class="container">
+  <div class="section-tag">📢 Free For Brands</div>
+  <h2 class="section-title">Get in the Rotation</h2>
+  <p class="section-sub">We give rave brands a free ad spot while we build the biggest festival marketplace in the scene.</p>
+  <div class="ad-features">
+    <div class="ad-feat"><div class="ad-feat-icon">🎯</div><h4>Targeted Audience</h4><p>30K+ daytime festival fans actively looking for rave brands and merch.</p></div>
+    <div class="ad-feat"><div class="ad-feat-icon">🔄</div><h4>Auto Ad Rotation</h4><p>Your brand rotates in our top banner — seen on every page, every visit.</p></div>
+    <div class="ad-feat"><div class="ad-feat-icon">📅</div><h4>Drop Calendar Listing</h4><p>Announce your merch drops directly to fans with alerts set up.</p></div>
+    <div class="ad-feat"><div class="ad-feat-icon">💸</div><h4>100% Free to Start</h4><p>No commissions, no monthly fees to list. We grow together.</p></div>
+  </div>
+  <button class="btn-white" onclick="scrollTo('list')">Apply for Your Free Spot</button>
+</div>
+</section>
+
+<!-- SIGNUP -->
+<section class="signup-section" id="list">
+<div class="container">
+  <div class="signup-grid">
+    <div>
+      <div class="section-tag">🌟 Join RaveHub</div>
+      <h2 class="section-title">List Your Brand — Free</h2>
+      <p class="section-sub" style="margin-bottom:1.5rem">Fill out the form and we'll get your brand listed within 48 hours.</p>
+      <div class="form-group"><label>Brand Name</label><input type="text" placeholder="e.g. SunRave Co."></div>
+      <div class="form-group"><label>Your Name</label><input type="text" placeholder="First & Last"></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="hello@yourbrand.com"></div>
+      <div class="form-group"><label>Brand Category</label><select><option>Apparel & Fashion</option><option>Jewelry & Kandi</option><option>LED & Light Gear</option><option>Art & Prints</option><option>Festival Essentials</option><option>EDM Artist Merch</option><option>Other</option></select></div>
+      <div class="form-group"><label>Instagram / Website</label><input type="text" placeholder="@yourbrand or website URL"></div>
+      <div class="form-group"><label>Tell us about your brand</label><textarea placeholder="What you sell, upcoming drops, vibe..."></textarea></div>
+      <button class="btn-primary" style="width:100%" onclick="handleSubmit()">Submit Free Application →</button>
+    </div>
+    <div class="signup-img"><div>☀️🎪✨🌵💛</div><p>Join 120+ brands already in the RaveHub directory</p></div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <div class="footer-logo">WUBCLUB</div>
+  <p>The EDM artist merch hub for rave brands, drop calendars & bass culture.</p>
+  <div class="footer-links">
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('home');scrollTo('brands')">Brands</a>
+    <a onclick="showPage('suppliers')">Suppliers</a>
+    <a onclick="showPage('home');scrollTo('artists')">Artists</a>
+    <a onclick="showPage('home');scrollTo('list')">List Free</a>
+  </div>
+  <p style="font-size:0.72rem;opacity:0.4;margin-top:0.75rem">© 2026 WUBCLUB. Made with 🎛️ for the bass community.</p>
+</footer>
+</div><!-- end home -->
+
+<!-- ===== SUPPLIERS PAGE ===== -->
+<div class="page" id="page-suppliers">
+<section class="suppliers-section" style="padding-top:6rem">
+<div class="container">
+  <div class="section-tag">⚡ Rave Supplies</div>
+  <h2 class="section-title">Suppliers & Products</h2>
+  <p class="section-sub">Everything you need to show up and glow up. Search and filter below.</p>
+  <div class="search-bar-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-bar" id="supSearch" type="text" placeholder="Search suppliers, products, categories..." oninput="filterSuppliers()">
+  </div>
+  <div class="sup-filters" id="supFilters"></div>
+  <div class="suppliers-grid" id="suppliersGrid"></div>
+  <div class="no-results" id="supNoResults" style="display:none">No suppliers match your search. Try different keywords!</div>
+</div>
+</section>
+<footer>
+  <div class="footer-logo">WUBCLUB</div>
+  <div class="footer-links"><a onclick="showPage('home')">← Back to Home</a></div>
+</footer>
+</div>
+
+<!-- ===== STOREFRONT PAGE ===== -->
+<div class="page" id="page-storefront">
+<div class="storefront-page">
+  <div class="store-hero">
+    <div class="container">
+      <button class="store-back" onclick="showPage('home');scrollTo('brands')">← Back to Brands</button>
+      <div class="store-header">
+        <div class="store-logo-big" id="storeLogo"></div>
+        <div class="store-info">
+          <div class="store-cat" id="storeCat"></div>
+          <h2 id="storeName"></h2>
+          <div class="store-badges" id="storeBadges"></div>
+        </div>
+      </div>
+      <div class="store-stats">
+        <div class="store-stat"><div class="num" id="storeSales"></div><div class="lbl">Total Sales</div></div>
+        <div class="store-stat"><div class="num" id="storeProducts"></div><div class="lbl">Products</div></div>
+        <div class="store-stat"><div class="num" id="storeRating"></div><div class="lbl">Rating</div></div>
+      </div>
+    </div>
+  </div>
+  <section class="store-products">
+    <div class="container">
+      <div class="store-tabs">
+        <div class="tab active">All Products</div>
+        <div class="tab">New Arrivals</div>
+        <div class="tab">Drops</div>
+      </div>
+      <div class="prod-grid" id="storeProdsGrid"></div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ALERT MODAL -->
+<div class="modal-overlay" id="alertModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAlert()">✕</button>
+    <h3 id="alertDropName">🔔 Get Drop Alerts</h3>
+    <p>Choose how you want to be notified when this drop goes live.</p>
+    <div class="alert-tabs">
+      <div class="alert-tab active" onclick="switchAlertTab('email',this)">📧 Email</div>
+      <div class="alert-tab" onclick="switchAlertTab('sms',this)">📱 SMS</div>
+      <div class="alert-tab" onclick="switchAlertTab('both',this)">⚡ Both</div>
+    </div>
+    <div id="alertEmailGroup">
+      <input class="alert-input" type="email" id="alertEmail" placeholder="your@email.com">
+    </div>
+    <div id="alertSmsGroup" style="display:none">
+      <input class="alert-input" type="tel" id="alertPhone" placeholder="+1 (555) 000-0000">
+    </div>
+    <div id="alertBothGroup" style="display:none">
+      <input class="alert-input" type="email" id="alertEmail2" placeholder="your@email.com">
+      <input class="alert-input" type="tel" id="alertPhone2" placeholder="+1 (555) 000-0000">
+    </div>
+    <button class="btn-primary" style="width:100%" onclick="submitAlert()">Set Alert →</button>
+    <div class="alert-success" id="alertSuccess" style="display:none">
+      <div class="big-emoji">🎉</div>
+      <h4>You're on the list!</h4>
+      <p>We'll hit you up the moment this drop goes live. Don't sleep on it.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- DATA ----
+const drops = [
+  {name:"Sub Bass Hoodie",artist:"Subtronics",type:"artist",price:"$68",days:10,hrs:4,emoji:"🌀",bg:"linear-gradient(135deg,#FFF7ED,#FEE2E2)",date:{m:6,d:4},genre:"Riddim"},
+  {name:"Forest Rave Tee",artist:"GRiZ",type:"artist",price:"$38",days:18,hrs:2,emoji:"🌲",bg:"linear-gradient(135deg,#ECFDF5,#FFF7ED)",date:{m:6,d:12},genre:"Funk Bass"},
+  {name:"Slander Angel Collab",artist:"SLANDER x Said The Sky",type:"collab",price:"$85",days:3,hrs:11,emoji:"👼",bg:"linear-gradient(135deg,#FDF4FF,#EFF6FF)",date:{m:6,d:27},genre:"Heaven Trap"},
+  {name:"Excision Headbanger Cap",artist:"Excision",type:"artist",price:"$45",days:7,hrs:8,emoji:"💀",bg:"linear-gradient(135deg,#FFF7ED,#FDF4FF)",date:{m:7,d:1},genre:"Dubstep"},
+  {name:"Seven Lions Dreamstate Tee",artist:"Seven Lions",type:"artist",price:"$52",days:38,hrs:0,emoji:"🦁",bg:"linear-gradient(135deg,#FEF3C7,#FFF7ED)",date:{m:7,d:19},genre:"Melodic Dubstep"},
+  {name:"Liquid Stranger Merch Bundle",artist:"Liquid Stranger",type:"artist",price:"$110",days:5,hrs:6,emoji:"🌊",bg:"linear-gradient(135deg,#EFF6FF,#FDF4FF)",date:{m:6,d:29},genre:"Experimental Bass"},
+  {name:"Rezz Spiral Jacket",artist:"Rezz",type:"artist",price:"$120",days:14,hrs:3,emoji:"👁️",bg:"linear-gradient(135deg,#FDF4FF,#FFF7ED)",date:{m:7,d:8},genre:"Space Bass"},
+  {name:"Illenium Alive Crewneck",artist:"Illenium",type:"artist",price:"$75",days:22,hrs:1,emoji:"🔥",bg:"linear-gradient(135deg,#FEE2E2,#FFF7ED)",date:{m:7,d:14},genre:"Future Bass"},
+];
+
+const brands = [
+  {name:"SunRave Co.",cat:"Apparel & Accessories",emoji:"☀️",sales:"2.1K",prods:24,rating:"4.9★",badges:["Free Ad","Top Seller"],products:[
+    {name:"Golden Sunrise Tee",desc:"Soft cotton, sunrise print.",price:"$32",emoji:"👕",bg:"linear-gradient(135deg,#FFF7ED,#FEE2E2)"},
+    {name:"Desert Shorts",desc:"Wide-leg, breathable linen.",price:"$48",emoji:"🩳",bg:"linear-gradient(135deg,#FEF3C7,#FFF7ED)"},
+    {name:"Mesh Cover-Up",desc:"Holographic mesh layer.",price:"$55",emoji:"✨",bg:"linear-gradient(135deg,#EFF6FF,#FDF4FF)"},
+    {name:"Fanny Pack",desc:"Reflective rave fanny pack.",price:"$28",emoji:"👜",bg:"linear-gradient(135deg,#FDF4FF,#EFF6FF)"},
+  ]},
+  {name:"Desert Bloom",cat:"UV Accessories",emoji:"🌵",sales:"1.4K",prods:18,rating:"4.8★",badges:["Free Ad","UV Specialist"],products:[
+    {name:"UV Bralette",desc:"Glows bright under UV light.",price:"$42",emoji:"🌸",bg:"linear-gradient(135deg,#FDF4FF,#EFF6FF)"},
+    {name:"Neon Body Gems",desc:"Stick-on crystal body art.",price:"$18",emoji:"💎",bg:"linear-gradient(135deg,#FFF7ED,#FEE2E2)"},
+    {name:"Reflective Cap",desc:"Mirror-finish bucket hat.",price:"$35",emoji:"🧢",bg:"linear-gradient(135deg,#ECFDF5,#FFF7ED)"},
+  ]},
+  {name:"KandiKraft",cat:"Jewelry & Kandi",emoji:"🌸",sales:"3.2K",prods:45,rating:"5.0★",badges:["Free Ad","Handmade"],products:[
+    {name:"PLUR Bracelet Set",desc:"6-piece handmade kandi set.",price:"$16",emoji:"📿",bg:"linear-gradient(135deg,#FDF4FF,#EFF6FF)"},
+    {name:"Custom Kandi Kit",desc:"Make your own beads kit.",price:"$22",emoji:"🎨",bg:"linear-gradient(135deg,#FFF7ED,#FEE2E2)"},
+    {name:"Rave Necklace",desc:"Chunky beaded neck piece.",price:"$28",emoji:"💛",bg:"linear-gradient(135deg,#FEF3C7,#FFF7ED)"},
+  ]},
+  {name:"FestivalThreads",cat:"Co-ords & Sets",emoji:"🎪",sales:"1.8K",prods:31,rating:"4.7★",badges:["Free Ad","Summer Sale"],products:[
+    {name:"Flowy Co-ord Set",desc:"Matching top & wide-leg pants.",price:"$74",emoji:"👗",bg:"linear-gradient(135deg,#EFF6FF,#FDF4FF)"},
+    {name:"Crochet Crop Top",desc:"Handmade boho crochet.",price:"$38",emoji:"🌊",bg:"linear-gradient(135deg,#FFF7ED,#FEE2E2)"},
+    {name:"Tie-Dye Romper",desc:"Spiral tie-dye, one-piece.",price:"$58",emoji:"🌈",bg:"linear-gradient(135deg,#FDF4FF,#EFF6FF)"},
+  ]},
+  {name:"Metamorph Wear",cat:"Festival Fashion",emoji:"🦋",sales:"980",prods:22,rating:"4.9★",badges:["Free Ad"],products:[
+    {name:"Butterfly Wings",desc:"Iridescent wearable wings.",price:"$65",emoji:"🦋",bg:"linear-gradient(135deg,#FDF4FF,#EFF6FF)"},
+    {name:"Body Chain",desc:"Gold-tone layered body chain.",price:"$44",emoji:"⛓️",bg:"linear-gradient(135deg,#FEF3C7,#FFF7ED)"},
+  ]},
+  {name:"Prism Supply",cat:"Holographic Gear",emoji:"🌈",sales:"1.1K",prods:19,rating:"4.8★",badges:["Free Ad"],products:[
+    {name:"Holo Jacket",desc:"Full holographic bomber.",price:"$110",emoji:"🌈",bg:"linear-gradient(135deg,#EFF6FF,#FDF4FF)"},
+    {name:"Prism Sunglasses",desc:"Kaleidoscope lens shades.",price:"$28",emoji:"🕶️",bg:"linear-gradient(135deg,#FFF7ED,#FEE2E2)"},
+  ]},
+  {name:"Golden Hour Co.",cat:"Lifestyle & Merch",emoji:"🔮",sales:"760",prods:16,rating:"4.6★",badges:["Free Ad"],products:[
+    {name:"Golden Hour Candle",desc:"Sunset-scented soy candle.",price:"$24",emoji:"🕯️",bg:"linear-gradient(135deg,#FEF3C7,#FFF7ED)"},
+    {name:"Rave Journal",desc:"Lined notebook, foil cover.",price:"$18",emoji:"📓",bg:"linear-gradient(135deg,#FDF4FF,#EFF6FF)"},
+  ]},
+  {name:"Solstice Studio",cat:"Handmade Goods",emoji:"🌻",sales:"540",prods:12,rating:"5.0★",badges:["Free Ad","New"],products:[
+    {name:"Macramé Bag",desc:"Knotted cotton festival bag.",price:"$36",emoji:"🎒",bg:"linear-gradient(135deg,#ECFDF5,#FFF7ED)"},
+    {name:"Pressed Flower Print",desc:"A4 art print, festival vibes.",price:"$20",emoji:"🌸",bg:"linear-gradient(135deg,#FFF7ED,#FEE2E2)"},
+  ]},
+];
+
+const suppliers = [
+  {name:"LED & Light Gear",desc:"Glow sticks, LED gloves, fiber optic accessories and light-up outfits for golden-hour magic.",emoji:"💡",cat:"Gear",tag:"tag-orange"},
+  {name:"Kandi & Jewelry",desc:"Handmade kandi bracelets, beads, plur jewelry, and custom kandi-making kits.",emoji:"📿",cat:"Accessories",tag:"tag-pink"},
+  {name:"Festival Fashion",desc:"Flowy sets, crochet tops, reflective jackets, and co-ords made for daytime dancing.",emoji:"👗",cat:"Fashion",tag:"tag-sky"},
+  {name:"Festival Essentials",desc:"Hydration packs, sunscreen sticks, fanny packs, ear plugs and all the must-haves.",emoji:"🎒",cat:"Essentials",tag:"tag-sage"},
+  {name:"Eyewear & Visors",desc:"Holographic shades, kaleidoscope lenses, and sun-blocking festival hats.",emoji:"🕶️",cat:"Accessories",tag:"tag-orange"},
+  {name:"Body Art & Glitter",desc:"Biodegradable glitter, face gems, body paint, and UV-reactive skin products.",emoji:"🎨",cat:"Beauty",tag:"tag-pink"},
+  {name:"Sound Accessories",desc:"High-fidelity earplugs, speaker bags, wearable audio, and DJ gear for festival-goers.",emoji:"🎵",cat:"Gear",tag:"tag-sky"},
+  {name:"Eco Festival Gear",desc:"Sustainable, eco-conscious rave wear and zero-waste festival supply brands.",emoji:"🌿",cat:"Essentials",tag:"tag-sage"},
+  {name:"Campsite & Setup",desc:"Tents, hammocks, solar chargers, and all the gear for multi-day festival camping.",emoji:"⛺",cat:"Essentials",tag:"tag-sage"},
+  {name:"Rave Footwear",desc:"Platform boots, holographic trainers, and comfortable all-day dancing shoes.",emoji:"👟",cat:"Fashion",tag:"tag-sky"},
+  {name:"Photography Gear",desc:"Disposable cameras, instant film, and accessories to capture the festival moments.",emoji:"📷",cat:"Gear",tag:"tag-orange"},
+  {name:"Health & Wellness",desc:"Electrolyte packs, sleep masks, recovery tools, and festival wellness essentials.",emoji:"💊",cat:"Essentials",tag:"tag-sage"},
+];
+
+const supCategories = ['All', ...new Set(suppliers.map(s => s.cat))];
+let activeSupCat = 'All';
+let notified = {};
+let currentFilter = 'all';
+let alertMode = 'email';
+let calYear = 2026; let calMonth = 5; // 0-indexed, 5=June
+
+// ---- PAGE ROUTING ----
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='suppliers') renderSuppliers();
+}
+function scrollTo(id) {
+  setTimeout(()=>{const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});},100);
+}
+
+// ---- DROPS ----
+function renderDrops(filter) {
+  const grid = document.getElementById('dropsGrid');
+  const f = filter||currentFilter;
+  const list = f==='all' ? drops : genreMap[f] ? drops.filter(d=>genreMap[f].includes(d.genre)) : drops.filter(d=>d.type===f);
+  grid.innerHTML = list.map((d,i)=>`
+    <div class="drop-card" onclick="openAlert(${i})">
+      <div class="drop-img" style="background:${d.bg}">${d.emoji}</div>
+      <div class="drop-body">
+        <div class="drop-artist">${d.artist} <span style="opacity:0.5;font-size:0.62rem;margin-left:4px">${d.genre}</span></div>
+        <div class="drop-name">${d.name}</div>
+        <div class="countdown">
+          <div class="cd-unit"><span class="cd-num">${d.days}</span><span class="cd-label">Days</span></div>
+          <div class="cd-unit"><span class="cd-num">${d.hrs}</span><span class="cd-label">Hrs</span></div>
+          <div class="cd-unit"><span class="cd-num">00</span><span class="cd-label">Min</span></div>
+          <div class="cd-unit"><span class="cd-num">00</span><span class="cd-label">Sec</span></div>
+        </div>
+        <div class="drop-footer">
+          <div class="drop-price">${d.price}</div>
+          <button class="notify-btn ${notified[i]?'notified':''}" onclick="event.stopPropagation();toggleNotify(${i},this)">${notified[i]?'✓ Notified':'Notify Me'}</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterDrops(f,el) {
+  currentFilter=f;
+  document.querySelectorAll('.filter-tabs .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderDrops(f);
+}
+const genreMap={riddim:['Riddim'],melodic:['Melodic Dubstep','Heaven Trap'],bass:['Funk Bass','Experimental Bass','Space Bass','Future Bass']};
+
+function toggleNotify(i,btn) {
+  notified[i]=!notified[i];
+  btn.textContent=notified[i]?'✓ Notified':'Notify Me';
+  btn.classList.toggle('notified',notified[i]);
+}
+
+// ---- CALENDAR ----
+const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function renderCalendar() {
+  document.getElementById('monthLabel').textContent=monthNames[calMonth]+' '+calYear;
+  const grid=document.getElementById('calGrid');
+  const dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  let html=dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const first=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const prevDays=new Date(calYear,calMonth,0).getDate();
+  const today=new Date(); const isThisMonth=today.getMonth()===calMonth&&today.getFullYear()===calYear;
+  for(let i=0;i<first;i++){const d=prevDays-first+1+i;html+=`<div class="cal-day other-month"><div class="day-num">${d}</div></div>`;}
+  for(let d=1;d<=daysInMonth;d++){
+    const isToday=isThisMonth&&d===today.getDate();
+    const dayDrops=drops.filter(dr=>dr.date&&dr.date.m===calMonth&&dr.date.d===d);
+    const daysHtml=dayDrops.map(dr=>`<span class="cal-drop-dot">${dr.emoji} ${dr.artist}</span>`).join('');
+    html+=`<div class="cal-day${isToday?' today':''}"><div class="day-num">${d}</div>${daysHtml}</div>`;
+  }
+  const filled=first+daysInMonth; const rem=filled%7===0?0:7-(filled%7);
+  for(let i=1;i<=rem;i++){html+=`<div class="cal-day other-month"><div class="day-num">${i}</div></div>`;}
+  grid.innerHTML=html;
+}
+function changeMonth(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCalendar();}
+function switchView(v,el){
+  document.querySelectorAll('.vtab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  document.getElementById('listView').style.display=v==='list'?'block':'none';
+  document.getElementById('calendarView').style.display=v==='calendar'?'block':'none';
+  if(v==='calendar')renderCalendar();
+}
+
+// ---- BRANDS ----
+function renderBrands() {
+  document.getElementById('brandsGrid').innerHTML = brands.map((b,i)=>`
+    <div class="brand-card" onclick="openStorefront(${i})">
+      <div class="brand-logo">${b.emoji}</div>
+      <div class="brand-name">${b.name}</div>
+      <div class="brand-cat">${b.cat}</div>
+      <div class="brand-free">Featured Free</div>
+    </div>`).join('');
+}
+
+// ---- STOREFRONT ----
+function openStorefront(i) {
+  const b=brands[i];
+  document.getElementById('storeLogo').textContent=b.emoji;
+  document.getElementById('storeName').textContent=b.name;
+  document.getElementById('storeCat').textContent=b.cat;
+  document.getElementById('storeSales').textContent=b.sales;
+  document.getElementById('storeProducts').textContent=b.prods;
+  document.getElementById('storeRating').textContent=b.rating;
+  document.getElementById('storeBadges').innerHTML=b.badges.map(bg=>`<span class="badge badge-orange">${bg}</span>`).join('');
+  document.getElementById('storeProdsGrid').innerHTML=b.products.map(p=>`
+    <div class="prod-card">
+      <div class="prod-img" style="background:${p.bg}">${p.emoji}</div>
+      <div class="prod-body">
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-desc">${p.desc}</div>
+        <div class="prod-row"><span class="prod-price">${p.price}</span><button class="add-btn">Add to Cart</button></div>
+      </div>
+    </div>`).join('');
+  showPage('storefront');
+}
+
+// ---- SUPPLIERS ----
+function renderSuppliers() {
+  const query=document.getElementById('supSearch').value.toLowerCase();
+  const filtersEl=document.getElementById('supFilters');
+  if(!filtersEl.innerHTML){
+    filtersEl.innerHTML=supCategories.map(c=>`<div class="sup-filter${c==='All'?' active':''}" onclick="setSupCat('${c}',this)">${c}</div>`).join('');
+  }
+  const filtered=suppliers.filter(s=>{
+    const matchCat=activeSupCat==='All'||s.cat===activeSupCat;
+    const matchQ=!query||(s.name.toLowerCase().includes(query)||s.desc.toLowerCase().includes(query)||s.cat.toLowerCase().includes(query));
+    return matchCat&&matchQ;
+  });
+  const grid=document.getElementById('suppliersGrid');
+  const none=document.getElementById('supNoResults');
+  if(!filtered.length){grid.innerHTML='';none.style.display='block';}
+  else{none.style.display='none';grid.innerHTML=filtered.map(s=>`
+    <div class="supplier-card">
+      <div class="sup-icon">${s.emoji}</div>
+      <div class="sup-name">${s.name}</div>
+      <div class="sup-desc">${s.desc}</div>
+      <span class="sup-tag ${s.tag}">Shop Now</span>
+    </div>`).join('');}
+}
+function setSupCat(cat,el){
+  activeSupCat=cat;
+  document.querySelectorAll('.sup-filter').forEach(f=>f.classList.remove('active'));
+  el.classList.add('active');
+  filterSuppliers();
+}
+function filterSuppliers(){renderSuppliers();}
+
+// ---- ALERT MODAL ----
+let alertDropIdx = null;
+function openAlert(i) {
+  alertDropIdx=i;
+  document.getElementById('alertDropName').textContent='🔔 Alert: '+drops[i].name;
+  document.getElementById('alertSuccess').style.display='none';
+  document.getElementById('alertModal').querySelector('.btn-primary').style.display='block';
+  switchAlertTab('email',document.querySelector('.alert-tab.active'));
+  document.getElementById('alertModal').classList.add('open');
+}
+function closeAlert(){document.getElementById('alertModal').classList.remove('open');}
+function switchAlertTab(mode,el){
+  alertMode=mode;
+  document.querySelectorAll('.alert-tab').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.getElementById('alertEmailGroup').style.display=mode==='email'?'block':'none';
+  document.getElementById('alertSmsGroup').style.display=mode==='sms'?'block':'none';
+  document.getElementById('alertBothGroup').style.display=mode==='both'?'block':'none';
+}
+function submitAlert(){
+  document.getElementById('alertSuccess').style.display='block';
+  document.getElementById('alertModal').querySelector('.btn-primary').style.display='none';
+  if(alertDropIdx!==null)notified[alertDropIdx]=true;
+  setTimeout(closeAlert,2400);
+}
+
+// ---- AD ROTATION ----
+let adIdx=0;
+const ads=document.querySelectorAll('.ad-brand');
+setInterval(()=>{ads[adIdx].classList.remove('active');adIdx=(adIdx+1)%ads.length;ads[adIdx].classList.add('active');},3500);
+
+// ---- FORM ----
+function handleSubmit(){alert('🎉 Application received! We\'ll get your brand listed within 48 hours. Welcome to RaveHub!');}
+
+// ---- INIT ----
+renderDrops('all');
+renderBrands();
+renderCalendar();
+</script>
+</body>
+</html>
